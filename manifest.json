@@ -1,0 +1,27 @@
+{
+  "name": "QEO CARD - Kartu Digital Interaktif",
+  "short_name": "QEO CARD",
+  "description": "Buat kartu digital profesional dengan QR code untuk bisnis dan personal",
+  "start_url": "/qeo-card/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#6a0dad",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/qeo-card/assets/images/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/qeo-card/assets/images/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/qeo-card/assets/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
