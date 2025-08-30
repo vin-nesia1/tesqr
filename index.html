@@ -1,742 +1,510 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QEO CARD - Kartu Digital Interaktif</title>
-    <meta name="description" content="Buat kartu digital profesional dengan QR code untuk bisnis dan personal">
-    <meta name="keywords" content="kartu digital, vcard, qr code, kartu nama digital">
-    <meta name="author" content="QEO CARD">
-    <link rel="canonical" href="https://username.github.io/qeo-card">
+    <title>QEO Card - Free Digital Business Card Platform</title>
+    <meta name="description" content="Create stunning free digital business cards with customizable QR codes. Professional, elegant, and fully responsive design for everyone.">
+    <meta name="keywords" content="free digital business card, free vcard, free qr code generator, professional networking, contact sharing">
     
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://username.github.io/qeo-card">
-    <meta property="og:title" content="QEO CARD - Kartu Digital Interaktif">
-    <meta property="og:description" content="Buat kartu digital profesional dengan QR code untuk bisnis dan personal">
-    <meta property="og:image" content="https://username.github.io/qeo-card/assets/images/og-image.png">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://username.github.io/qeo-card">
-    <meta property="twitter:title" content="QEO CARD - Kartu Digital Interaktif">
-    <meta property="twitter:description" content="Buat kartu digital profesional dengan QR code untuk bisnis dan personal">
-    <meta property="twitter:image" content="https://username.github.io/qeo-card/assets/images/og-image.png">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://qeo.qzz.io">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     
-    <!-- Preconnect for performance -->
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="QEO Card - Free Digital Business Card Platform">
+    <meta property="og:description" content="Create stunning free digital business cards with customizable QR codes. Professional, elegant, and fully responsive design for everyone.">
+    <meta property="og:image" content="https://qeo.qzz.io/logo.png">
+    <meta property="og:url" content="https://qeo.qzz.io">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QEO Card - Free Digital Business Card Platform">
+    <meta name="twitter:description" content="Create stunning free digital business cards with customizable QR codes. Professional, elegant, and fully responsive design for everyone.">
+    <meta name="twitter:image" content="https://qeo.qzz.io/logo.png">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     
-    <!-- Libraries -->
-    <script src="/qeo-card/libs/qr-code-styling.min.js"></script>
-    <script src="/qeo-card/libs/html2canvas.min.js"></script>
-    <script src="/qeo-card/libs/jspdf.umd.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="/qeo-card/css/style.css">
-    <link rel="stylesheet" href="/qeo-card/css/themes.css">
-    <link rel="stylesheet" href="/qeo-card/css/templates.css">
-    <link rel="stylesheet" href="/qeo-card/css/print.css">
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
     
-    <!-- Manifest for PWA -->
-    <link rel="manifest" href="/qeo-card/manifest.json">
-    
-    <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#6a0dad">
+    <style>
+        /* Custom Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Orbitron:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Courier Prime', monospace;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .typewriter {
+            font-family: 'Courier Prime', monospace;
+            letter-spacing: 2px;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: linear-gradient(rgba(255, 0, 128, 0.05), rgba(255, 0, 128, 0.05)), 
+                              repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 0, 128, 0.02) 2px, rgba(255, 0, 128, 0.02) 4px),
+                              repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 0, 128, 0.02) 2px, rgba(255, 0, 128, 0.02) 4px);
+            animation: matrixMove 20s linear infinite;
+        }
+        
+        @keyframes matrixMove {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.7), 0 0 20px rgba(255, 0, 128, 0.5);
+        }
+        
+        .card-container {
+            perspective: 1000px;
+        }
+        
+        .business-card {
+            transition: all 0.6s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .business-card:hover {
+            transform: rotateY(10deg) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(255, 0, 128, 0.3);
+        }
+        
+        .qr-code-container {
+            filter: drop-shadow(0 0 10px rgba(255, 0, 128, 0.5));
+        }
+        
+        .cyber-button {
+            background: linear-gradient(45deg, #ff0080, #8000ff);
+            border: 1px solid #ff0080;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+        
+        .cyber-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 0, 128, 0.4);
+        }
+        
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .template-card {
+            background: rgba(255, 0, 128, 0.1);
+            border: 1px solid rgba(255, 0, 128, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 0, 128, 0.2);
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .gradient-border {
+            border: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, #ff0080, #8000ff);
+        }
+    </style>
 </head>
 <body>
-    <!-- Matrix Background Effect -->
-    <canvas class="matrix-bg" id="matrix-canvas"></canvas>
+    <!-- Matrix Background -->
+    <div class="matrix-bg"></div>
     
     <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">
-                <img src="/qeo-card/assets/images/logo.png" alt="QEO CARD Logo">
-                <h1>QEO CARD</h1>
+    <header class="relative z-10 py-6 px-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <img src="logo.png" alt="QEO Card Logo" class="w-12 h-12 rounded-full">
+                <h1 class="text-3xl font-bold typewriter glow-text">QEO<span class="text-red-500">CARD</span></h1>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#home">Beranda</a></li>
-                    <li><a href="#templates">Template</a></li>
-                    <li><a href="#editor">Editor</a></li>
-                    <li><a href="#about">Tentang</a></li>
-                    <li><a href="#contact">Kontak</a></li>
-                    <li><button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
-                        <i class="fas fa-moon"></i>
-                    </button></li>
+            
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8">
+                    <li><a href="#home" class="hover:text-red-500 transition duration-300">Home</a></li>
+                    <li><a href="#templates" class="hover:text-red-500 transition duration-300">Templates</a></li>
+                    <li><a href="#create" class="hover:text-red-500 transition duration-300">Create Card</a></li>
+                    <li><a href="#features" class="hover:text-red-500 transition duration-300">Features</a></li>
+                    <li><a href="#about" class="hover:text-red-500 transition duration-300">About</a></li>
                 </ul>
             </nav>
+            
+            <button class="md:hidden text-white text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
-    
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero" id="home">
-            <div class="container">
-                <h2 class="animate-fadeIn">Kartu Digital Interaktif</h2>
-                <p class="animate-fadeIn">Buat kartu digital profesional dengan QR code untuk bisnis dan personal. Desain modern, elegan, dan mudah dibagikan.</p>
-                <div class="hero-buttons">
-                    <a href="#editor" class="btn btn-primary animate-fadeIn">Buat Kartu Anda Sekarang</a>
-                    <a href="#templates" class="btn btn-secondary animate-fadeIn">Lihat Template</a>
+
+    <!-- Hero Section -->
+    <section id="home" class="py-24 px-4 relative z-10">
+        <div class="container mx-auto text-center">
+            <h2 class="text-5xl md:text-6xl font-bold mb-8 typewriter glow-text floating-element">
+                Create Your <span class="text-red-500">Digital Business Card</span>
+            </h2>
+            <p class="text-xl mb-12 max-w-3xl mx-auto typewriter">
+                Stand out from the crowd with our professional digital business cards featuring customizable QR codes.
+            </p>
+            <a href="#create" class="inline-block cyber-button px-8 py-4 rounded-full text-white font-bold typewriter">
+                Get Started Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4 bg-black bg-opacity-30 relative z-10">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16 typewriter glow-text">Free Features Included</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-900 p-8 rounded-lg border border-purple-900 hover:border-purple-500 transition-all duration-300">
+                    <div class="text-4xl mb-4 text-red-500">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 typewriter">Custom QR Codes</h3>
+                    <p class="typewriter">Create unique QR codes with your brand colors, logos, and styles.</p>
+                </div>
+                
+                <div class="bg-gray-900 p-8 rounded-lg border border-purple-900 hover:border-purple-500 transition-all duration-300">
+                    <div class="text-4xl mb-4 text-red-500">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 typewriter">Fully Responsive</h3>
+                    <p class="typewriter">Your digital business card looks perfect on any device - phone, tablet, or desktop.</p>
+                </div>
+                
+                <div class="bg-gray-900 p-8 rounded-lg border border-purple-900 hover:border-purple-500 transition-all duration-300">
+                    <div class="text-4xl mb-4 text-red-500">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 typewriter">Easy Sharing</h3>
+                    <p class="typewriter">Share your contact information instantly via QR code scanning.</p>
                 </div>
             </div>
-        </section>
-        
-        <!-- Features Section -->
-        <section class="features-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Fitur Unggulan</h2>
-                    <p>Mengapa memilih QEO CARD?</p>
+        </div>
+    </section>
+
+    <!-- Templates Section -->
+    <section id="templates" class="py-20 px-4 relative z-10">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16 typewriter glow-text">Choose Your Template</h2>
+            <div class="template-grid">
+                <div class="template-card p-6 rounded-lg gradient-border">
+                    <div class="mb-4">
+                        <img src="https://picsum.photos/seed/classic/300/200.jpg" alt="Classic Template" class="w-full h-48 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 typewriter">Classic Professional</h3>
+                    <p class="typewriter text-sm text-gray-300">Traditional business card design with clean lines and professional appearance.</p>
                 </div>
                 
-                <div class="features-grid">
-                    <div class="feature-card animate-fadeIn">
-                        <div class="feature-icon">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <h3>Desain Premium</h3>
-                        <p>Pilih dari berbagai template profesional yang bisa disesuaikan dengan kebutuhan Anda</p>
+                <div class="template-card p-6 rounded-lg gradient-border">
+                    <div class="mb-4">
+                        <img src="https://picsum.photos/seed/modern/300/200.jpg" alt="Modern Template" class="w-full h-48 object-cover rounded-lg">
                     </div>
-                    
-                    <div class="feature-card animate-fadeIn">
-                        <div class="feature-icon">
-                            <i class="fas fa-qrcode"></i>
-                        </div>
-                        <h3>QR Code Canggih</h3>
-                        <p>Generate QR code dengan desain kustom yang bisa discan oleh semua smartphone</p>
+                    <h3 class="text-xl font-bold mb-2 typewriter">Modern Creative</h3>
+                    <p class="typewriter text-sm text-gray-300">Contemporary design with bold colors and geometric shapes for creative professionals.</p>
+                </div>
+                
+                <div class="template-card p-6 rounded-lg gradient-border">
+                    <div class="mb-4">
+                        <img src="https://picsum.photos/seed/elegant/300/200.jpg" alt="Elegant Template" class="w-full h-48 object-cover rounded-lg">
                     </div>
-                    
-                    <div class="feature-card animate-fadeIn">
-                        <div class="feature-icon">
-                            <i class="fas fa-download"></i>
-                        </div>
-                        <h3>Export Kualitas Tinggi</h3>
-                        <p>Unduh kartu dalam berbagai format dengan kualitas cetak terbaik</p>
+                    <h3 class="text-xl font-bold mb-2 typewriter">Elegant Minimalist</h3>
+                    <p class="typewriter text-sm text-gray-300">Simple yet sophisticated design with ample white space for a refined look.</p>
+                </div>
+                
+                <div class="template-card p-6 rounded-lg gradient-border">
+                    <div class="mb-4">
+                        <img src="https://picsum.photos/seed/futuristic/300/200.jpg" alt="Futuristic Template" class="w-full h-48 object-cover rounded-lg">
                     </div>
-                    
-                    <div class="feature-card animate-fadeIn">
-                        <div class="feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h3>Fully Responsive</h3>
-                        <p>Tampil sempurna di semua device, dari desktop hingga smartphone</p>
-                    </div>
+                    <h3 class="text-xl font-bold mb-2 typewriter">Futuristic Tech</h3>
+                    <p class="typewriter text-sm text-gray-300">High-tech design with neon accents and digital effects for tech industry professionals.</p>
                 </div>
             </div>
-        </section>
-        
-        <!-- Templates Section -->
-        <section class="templates-section" id="templates">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Pilih Template Kartu Digital</h2>
-                    <p>Desain profesional untuk berbagai kebutuhan</p>
-                </div>
-                
-                <div class="template-filters">
-                    <button class="filter-btn active" data-filter="all">Semua</button>
-                    <button class="filter-btn" data-filter="business">Bisnis</button>
-                    <button class="filter-btn" data-filter="creative">Kreatif</button>
-                    <button class="filter-btn" data-filter="minimal">Minimalis</button>
-                </div>
-                
-                <div class="templates-grid">
-                    <!-- Template 1: Modern Business -->
-                    <div class="template-card animate-fadeIn" data-template="modern-business" data-category="business">
-                        <div class="template-preview">
-                            <div class="template-preview-content template-modern-business">
-                                <div class="template-avatar"></div>
-                                <div class="template-info">
-                                    <h3>John Doe</h3>
-                                    <p>CEO</p>
-                                </div>
-                            </div>
+        </div>
+    </section>
+
+    <!-- Create Card Section -->
+    <section id="create" class="py-20 px-4 bg-black bg-opacity-30 relative z-10">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-4xl font-bold text-center mb-16 typewriter glow-text">Create Your Digital Card</h2>
+            
+            <div class="bg-gray-900 p-8 rounded-lg border border-purple-900">
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2 typewriter">First Name</label>
+                            <input type="text" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 typewriter">
                         </div>
-                        <div class="template-info">
-                            <h3>Modern Business</h3>
-                            <p>Desain modern untuk profesional bisnis</p>
-                            <div class="template-sizes">
-                                <span class="size-tag">ISO</span>
-                                <span class="size-tag">US</span>
-                                <span class="size-tag">Eropa</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Template 2: Creative Artist -->
-                    <div class="template-card animate-fadeIn" data-template="creative-artist" data-category="creative">
-                        <div class="template-preview">
-                            <div class="template-preview-content template-creative-artist">
-                                <div class="template-avatar"></div>
-                                <div class="template-info">
-                                    <h3>Jane Smith</h3>
-                                    <p>Designer</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="template-info">
-                            <h3>Creative Artist</h3>
-                            <p>Desain kreatif untuk seniman dan desainer</p>
-                            <div class="template-sizes">
-                                <span class="size-tag">ISO</span>
-                                <span class="size-tag">Jepang</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Template 3: Minimal Tech -->
-                    <div class="template-card animate-fadeIn" data-template="minimal-tech" data-category="minimal">
-                        <div class="template-preview">
-                            <div class="template-preview-content template-minimal-tech">
-                                <div class="template-avatar"></div>
-                                <div class="template-info">
-                                    <h3>Alex Johnson</h3>
-                                    <p>Developer</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="template-info">
-                            <h3>Minimal Tech</h3>
-                            <p>Desain minimalis untuk industri teknologi</p>
-                            <div class="template-sizes">
-                                <span class="size-tag">ISO</span>
-                                <span class="size-tag">US</span>
-                                <span class="size-tag">Eropa</span>
-                                <span class="size-tag">Jepang</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Template 4: Corporate Executive -->
-                    <div class="template-card animate-fadeIn" data-template="corporate-executive" data-category="business">
-                        <div class="template-preview">
-                            <div class="template-preview-content template-corporate-executive">
-                                <div class="template-avatar"></div>
-                                <div class="template-info">
-                                    <h3>Robert Brown</h3>
-                                    <p>Executive</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="template-info">
-                            <h3>Corporate Executive</h3>
-                            <p>Desain formal untuk eksekutif korporat</p>
-                            <div class="template-sizes">
-                                <span class="size-tag">ISO</span>
-                                <span class="size-tag">US</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Template 5: Elegant Premium -->
-                    <div class="template-card animate-fadeIn" data-template="elegant-premium" data-category="business">
-                        <div class="template-preview">
-                            <div class="template-preview-content template-elegant-premium">
-                                <div class="template-avatar"></div>
-                                <div class="template-info">
-                                    <h3>Sarah Williams</h3>
-                                    <p>Director</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="template-info">
-                            <h3>Elegant Premium</h3>
-                            <p>Desain mewah dengan sentuhan elegan</p>
-                            <div class="template-sizes">
-                                <span class="size-tag">ISO</span>
-                                <span class="size-tag">Eropa</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Template 6: Futuristic Tech -->
-                    <div class="template-card animate-fadeIn" data-template="futuristic-tech" data-category="creative">
-                        <div class="template-preview">
-                            <div class="template-preview-content template-futuristic-tech">
-                                <div class="template-avatar"></div>
-                                <div class="template-info">
-                                    <h3>Mike Davis</h3>
-                                    <p>Tech Innovator</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="template-info">
-                            <h3>Futuristic Tech</h3>
-                            <p>Desain futuristik untuk inovator teknologi</p>
-                            <div class="template-sizes">
-                                <span class="size-tag">ISO</span>
-                                <span class="size-tag">Jepang</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Card Editor Section -->
-        <section class="editor-section" id="editor">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Buat Kartu Digital Anda</h2>
-                    <p>Isi informasi dan kustomisasi QR code</p>
-                </div>
-                
-                <div class="editor-container">
-                    <!-- Editor Form -->
-                    <div class="editor-form">
-                        <h3>Informasi Kartu</h3>
-                        <form id="vcard-form">
-                            <div class="form-group">
-                                <label for="name">Nama Lengkap</label>
-                                <input type="text" id="name" class="form-control" placeholder="John Doe" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="title">Jabatan</label>
-                                <input type="text" id="title" class="form-control" placeholder="CEO, Company" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="company">Perusahaan</label>
-                                <input type="text" id="company" class="form-control" placeholder="Company Name" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="phone">Telepon</label>
-                                <input type="tel" id="phone" class="form-control" placeholder="+62 812 3456 7890" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="website">Website</label>
-                                <input type="url" id="website" class="form-control" placeholder="https://example.com">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="address">Alamat</label>
-                                <input type="text" id="address" class="form-control" placeholder="Jl. Example No. 123, Jakarta">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="profile-pic">Foto Profil</label>
-                                <div class="file-upload">
-                                    <input type="file" id="profile-pic" accept="image/*">
-                                    <label for="profile-pic" class="file-upload-label">
-                                        <i class="fas fa-upload"></i> Pilih Foto
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="template-select">Pilih Template</label>
-                                <select id="template-select" class="form-control">
-                                    <option value="modern-business">Modern Business</option>
-                                    <option value="creative-artist">Creative Artist</option>
-                                    <option value="minimal-tech">Minimal Tech</option>
-                                    <option value="corporate-executive">Corporate Executive</option>
-                                    <option value="elegant-premium">Elegant Premium</option>
-                                    <option value="futuristic-tech">Futuristic Tech</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="size-select">Ukuran Kartu</label>
-                                <select id="size-select" class="form-control">
-                                    <option value="iso">ISO/Internasional (90 × 54 mm)</option>
-                                    <option value="us">US/Canada (89 × 51 mm)</option>
-                                    <option value="japan">Jepang (91 × 55 mm)</option>
-                                    <option value="europe">Eropa (85 × 55 mm)</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="theme-select">Tema Warna</label>
-                                <select id="theme-select" class="form-control">
-                                    <option value="standard">Standar</option>
-                                    <option value="vip">VIP</option>
-                                    <option value="tech">Canggih</option>
-                                    <option value="creative">Kreatif</option>
-                                    <option value="nature">Alam</option>
-                                </select>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-block">Perbarui Kartu</button>
-                        </form>
                         
-                        <!-- QR Customization -->
-                        <div class="qr-customization">
-                            <h3>Kustomisasi QR Code</h3>
-                            <div class="qr-options">
-                                <div class="form-group">
-                                    <label for="qr-color">Warna QR</label>
-                                    <div class="color-picker">
-                                        <input type="color" id="qr-color" value="#6a0dad">
-                                        <span>Warna Utama</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="qr-bg-color">Warna Background</label>
-                                    <div class="color-picker">
-                                        <input type="color" id="qr-bg-color" value="#ffffff">
-                                        <span>Background</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="qr-dot-style">Gaya Titik</label>
-                                    <select id="qr-dot-style" class="form-control">
-                                        <option value="square">Kotak</option>
-                                        <option value="dots">Titik</option>
-                                        <option value="rounded">Rounded</option>
-                                        <option value="extra-rounded">Extra Rounded</option>
-                                        <option value="classy">Classy</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="qr-logo">Logo QR</label>
-                                    <div class="file-upload">
-                                        <input type="file" id="qr-logo" accept="image/*">
-                                        <label for="qr-logo" class="file-upload-label">
-                                            <i class="fas fa-upload"></i> Pilih Logo
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <button id="update-qr" class="btn btn-block">Perbarui QR Code</button>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 typewriter">Last Name</label>
+                            <input type="text" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 typewriter">
                         </div>
                     </div>
                     
-                    <!-- Card Preview -->
-                    <div class="card-preview">
-                        <div class="preview-controls">
-                            <div class="zoom-controls">
-                                <button id="zoom-out" class="zoom-btn" aria-label="Zoom out">
-                                    <i class="fas fa-search-minus"></i>
-                                </button>
-                                <span id="zoom-level">100%</span>
-                                <button id="zoom-in" class="zoom-btn" aria-label="Zoom in">
-                                    <i class="fas fa-search-plus"></i>
-                                </button>
+                    <div>
+                        <label class="block text-sm font-medium mb-2 typewriter">Job Title</label>
+                        <input type="text" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 typewriter">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2 typewriter">Company</label>
+                        <input type="text" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 typewriter">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2 typewriter">Email</label>
+                            <input type="email" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 typewriter">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-2 typewriter">Phone</label>
+                            <input type="tel" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 typewriter">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2 typewriter">Upload Profile Photo</label>
+                        <input type="file" accept="image/*" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 typewriter">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2 typewriter">QR Code Settings</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <select class="p-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 typewriter">
+                                <option>Dots</option>
+                                <option>Squares</option>
+                                <option>Rounded</option>
+                            </select>
+                            
+                            <select class="p-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 typewriter">
+                                <option>Red/Purple</option>
+                                <option>Blue/Cyan</option>
+                                <option>Green/Yellow</option>
+                                <option>Custom</option>
+                            </select>
+                            
+                            <button type="button" class="p-3 bg-gray-800 border border-gray-700 rounded-md hover:bg-gray-700 transition duration-300 typewriter">
+                                Upload Logo
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center pt-4">
+                        <button type="submit" class="cyber-button px-8 py-4 rounded-full text-white font-bold typewriter">
+                            Generate My Card
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preview Section -->
+    <section class="py-20 px-4 relative z-10">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-4xl font-bold text-center mb-16 typewriter glow-text">Preview Your Card</h2>
+            
+            <div class="card-container flex justify-center">
+                <div class="business-card w-96 h-56 bg-gradient-to-br from-purple-900 to-black rounded-lg shadow-2xl border border-purple-700 overflow-hidden">
+                    <div class="p-6 h-full flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <img src="https://picsum.photos/seed/profile/60/60.jpg" alt="Profile" class="w-12 h-12 rounded-full mr-4 border-2 border-red-500">
+                                <div>
+                                    <h3 class="text-xl font-bold typewriter">John Doe</h3>
+                                    <p class="text-sm text-gray-300 typewriter">Senior Developer</p>
+                                </div>
                             </div>
-                            <div class="view-controls">
-                                <button id="view-front" class="view-btn active" aria-label="Front view">Depan</button>
-                                <button id="view-back" class="view-btn" aria-label="Back view">Belakang</button>
+                            
+                            <div class="space-y-2 text-sm typewriter">
+                                <p><i class="fas fa-envelope mr-2"></i> john.doe@example.com</p>
+                                <p><i class="fas fa-phone mr-2"></i> +1 (123) 456-7890</p>
+                                <p><i class="fas fa-building mr-2"></i> Tech Solutions Inc.</p>
                             </div>
                         </div>
                         
-                        <div class="preview-container">
-                            <div class="cyber-grid"></div>
-                            <div class="vcard cyber-border template-modern-business theme-standard size-iso" id="vcard-preview">
-                                <div class="vcard-header">
-                                    <img src="https://picsum.photos/seed/avatar/80/80.jpg" alt="Profile" class="vcard-avatar" id="preview-avatar">
-                                    <div class="vcard-info">
-                                        <h3 id="preview-name">Nama Anda</h3>
-                                        <p id="preview-title">Jabatan Anda</p>
-                                        <p id="preview-company">Perusahaan Anda</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="vcard-contact">
-                                    <div class="vcard-contact-item">
-                                        <i class="fas fa-phone"></i>
-                                        <span id="preview-phone">+62 812 3456 7890</span>
-                                    </div>
-                                    <div class="vcard-contact-item">
-                                        <i class="fas fa-envelope"></i>
-                                        <span id="preview-email">email@example.com</span>
-                                    </div>
-                                    <div class="vcard-contact-item">
-                                        <i class="fas fa-globe"></i>
-                                        <span id="preview-website">https://example.com</span>
-                                    </div>
-                                    <div class="vcard-contact-item">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span id="preview-address">Jl. Example No. 123, Jakarta</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="vcard-qr">
-                                    <div id="qr-code"></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="export-options">
-                            <div class="export-title">Opsi Export</div>
-                            <div class="export-buttons">
-                                <button id="download-png" class="btn" title="Download PNG">
-                                    <i class="fas fa-image"></i> PNG
-                                </button>
-                                <button id="download-pdf" class="btn" title="Download PDF">
-                                    <i class="fas fa-file-pdf"></i> PDF
-                                </button>
-                                <button id="download-svg" class="btn" title="Download SVG">
-                                    <i class="fas fa-vector-square"></i> SVG
-                                </button>
-                                <button id="download-vcard" class="btn" title="Download vCard">
-                                    <i class="fas fa-address-card"></i> vCard
-                                </button>
-                                <button id="print-vcard" class="btn" title="Print">
-                                    <i class="fas fa-print"></i> Cetak
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="share-options">
-                            <div class="share-title">Bagikan Kartu</div>
-                            <div class="share-buttons">
-                                <button id="share-link" class="share-btn" title="Copy Link">
-                                    <i class="fas fa-link"></i>
-                                </button>
-                                <button id="share-whatsapp" class="share-btn" title="Share to WhatsApp">
-                                    <i class="fab fa-whatsapp"></i>
-                                </button>
-                                <button id="share-email" class="share-btn" title="Share via Email">
-                                    <i class="fas fa-envelope"></i>
-                                </button>
-                                <button id="save-data" class="share-btn" title="Save Data">
-                                    <i class="fas fa-save"></i>
-                                </button>
-                                <button id="load-data" class="share-btn" title="Load Data">
-                                    <i class="fas fa-folder-open"></i>
-                                </button>
-                            </div>
+                        <div class="qr-code-container flex justify-center mt-4">
+                            <canvas id="qrCodeCanvas" width="80" height="80"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <!-- About Section -->
-        <section class="about-section" id="about">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Tentang QEO CARD</h2>
-                    <p>Platform kartu digital terdepan di Indonesia</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4 bg-black bg-opacity-30 relative z-10">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16 typewriter glow-text">About QEO Card</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 typewriter">Our Mission</h3>
+                    <p class="text-lg mb-6 typewriter text-gray-300">
+                        At QEO Card, we believe that every professional deserves a modern, elegant way to share their contact information. Our mission is to provide a completely free, high-quality digital business card solution that helps you make lasting impressions in today's digital world.
+                    </p>
+                    <p class="text-lg mb-6 typewriter text-gray-300">
+                        We're committed to keeping our service 100% free forever, ensuring that everyone has access to professional-grade digital business cards without any cost barriers.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-red-500 hover:text-red-400 transition duration-300">
+                            <i class="fab fa-twitter text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-red-500 hover:text-red-400 transition duration-300">
+                            <i class="fab fa-facebook text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-red-500 hover:text-red-400 transition duration-300">
+                            <i class="fab fa-instagram text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-red-500 hover:text-red-400 transition duration-300">
+                            <i class="fab fa-linkedin text-2xl"></i>
+                        </a>
+                    </div>
                 </div>
-                
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>QEO CARD adalah platform pembuatan kartu digital interaktif dengan QR code. Dengan desain modern dan teknologi canggih, kami membantu Anda membuat kartu digital profesional yang mudah dibagikan dan diakses kapan saja, di mana saja.</p>
-                        
-                        <p>Kartu digital dari QEO CARD dapat disesuaikan dengan kebutuhan bisnis atau personal Anda. Dengan berbagai template pilihan, Anda dapat membuat kartu digital yang mencerminkan identitas brand atau personal Anda dengan sempurna.</p>
-                        
-                        <p>Fitur QR code pada setiap kartu digital memudahkan orang lain untuk menyimpan informasi kontak Anda secara instan. Cukup scan QR code dengan smartphone, dan informasi kontak Anda akan tersimpan dengan mudah.</p>
-                    </div>
-                    
-                    <div class="about-stats">
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="1000">0</div>
-                            <div class="stat-label">Pengguna Aktif</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="50">0</div>
-                            <div class="stat-label">Template Desain</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="10">0</div>
-                            <div class="stat-label">Tema Warna</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="4">0</div>
-                            <div class="stat-label">Format Export</div>
-                        </div>
-                    </div>
+                <div>
+                    <img src="https://picsum.photos/seed/about/500/400.jpg" alt="About QEO Card" class="rounded-lg shadow-lg">
                 </div>
             </div>
-        </section>
-        
-        <!-- Contact Section -->
-        <section class="contact-section" id="contact">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Hubungi Kami</h2>
-                    <p>Tim kami siap membantu Anda</p>
-                </div>
-                
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <p>Jl. Teknologi No. 123, Jakarta Selatan, 12345</p>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <p>+62 21 1234 5678</p>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <p>info@qeo.qzz.io</p>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-clock"></i>
-                            <p>Senin - Jumat: 09:00 - 17:00</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-form">
-                        <form id="contact-form">
-                            <div class="form-group">
-                                <label for="contact-name">Nama</label>
-                                <input type="text" id="contact-name" class="form-control" placeholder="Nama Anda" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="contact-email">Email</label>
-                                <input type="email" id="contact-email" class="form-control" placeholder="email@example.com" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="contact-subject">Subjek</label>
-                                <input type="text" id="contact-subject" class="form-control" placeholder="Subjek pesan" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="contact-message">Pesan</label>
-                                <textarea id="contact-message" class="form-control" rows="5" placeholder="Tulis pesan Anda di sini" required></textarea>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-block">Kirim Pesan</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- FAQ Section -->
-        <section class="faq-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Pertanyaan Umum</h2>
-                    <p>Jawaban untuk pertanyaan yang sering diajukan</p>
-                </div>
-                
-                <div class="faq-container">
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <h3>Apakah QEO CARD gratis digunakan?</h3>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Ya, QEO CARD sepenuhnya gratis untuk digunakan. Anda dapat membuat, mengkustomisasi, dan mengunduh kartu digital tanpa biaya apapun.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <h3>Bagaimana cara mencetak kartu digital?</h3>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Anda dapat mengunduh kartu dalam format PNG atau PDF dengan kualitas tinggi, lalu mencetaknya di percetakan atau printer rumah. Kami juga menyediakan opsi cetak langsung dari browser.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <h3>Apakah data saya aman?</h3>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Ya, semua data Anda tersimpan di browser Anda (localStorage) dan tidak dikirim ke server apapun. Anda sepenuhnya mengontrol data Anda.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <h3>Format file apa yang tersedia untuk diunduh?</h3>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Kami menyediakan beberapa format: PNG (untuk gambar), PDF (untuk dokumen), SVG (untuk vektor), dan vCard (untuk kontak digital).</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-    
+        </div>
+    </section>
+
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="/qeo-card/assets/images/logo.png" alt="QEO CARD Logo" width="40" height="40">
-                    <h1 style="font-size: 1.5rem; margin-bottom: 0;">QEO CARD</h1>
+    <footer class="py-12 px-4 bg-black bg-opacity-50 relative z-10">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="logo.png" alt="QEO Card Logo" class="w-10 h-10 rounded-full">
+                        <h3 class="text-xl font-bold typewriter">QEO<span class="text-red-500">CARD</span></h3>
+                    </div>
+                    <p class="typewriter text-gray-400">Creating the future of professional networking with innovative digital solutions.</p>
                 </div>
                 
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h3>Produk</h3>
-                        <ul>
-                            <li><a href="#templates">Template</a></li>
-                            <li><a href="#editor">Editor</a></li>
-                            <li><a href="#features">Fitur</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3>Perusahaan</h3>
-                        <ul>
-                            <li><a href="#about">Tentang Kami</a></li>
-                            <li><a href="#contact">Kontak</a></li>
-                            <li><a href="#faq">FAQ</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3>Legal</h3>
-                        <ul>
-                            <li><a href="#">Kebijakan Privasi</a></li>
-                            <li><a href="#">Syarat & Ketentuan</a></li>
-                            <li><a href="#">Cookie Policy</a></li>
-                        </ul>
-                    </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 typewriter">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300 typewriter">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300 typewriter">Templates</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300 typewriter">Create Card</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300 typewriter">About Us</a></li>
+                    </ul>
                 </div>
                 
-                <div class="footer-bottom">
-                    <p>&copy; 2023 QEO CARD. Hak Cipta Dilindungi.</p>
-                    
-                    <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://github.com/username/qeo-card" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 typewriter">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300 typewriter">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300 typewriter">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300 typewriter">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300 typewriter">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4 typewriter">Contact</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center"><i class="fas fa-envelope mr-2"></i> info@qeocard.com</li>
+                        <li class="flex items-center"><i class="fas fa-phone mr-2"></i> +1 (555) 123-4567</li>
+                        <li class="flex items-center"><i class="fas fa-map-marker-alt mr-2"></i> New York, NY 10001</li>
+                    </ul>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center typewriter">
+                <p>&copy; 2023 QEO Card. All rights reserved.</p>
             </div>
         </div>
     </footer>
-    
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- JavaScript -->
-    <script src="/qeo-card/js/app.js"></script>
-    <script src="/qeo-card/js/qr-generator.js"></script>
-    <script src="/qeo-card/js/export.js"></script>
-    <script src="/qeo-card/js/storage.js"></script>
+
+    <script>
+        // Initialize QR Code
+        const qrCode = new QRCodeStyling({
+            width: 80,
+            height: 80,
+            data: "BEGIN:VCARD\nVERSION:3.0\nFN:John Doe\nORG:Tech Solutions Inc.\nTEL:+1 (123) 456-7890\nEMAIL:john.doe@example.com\nEND:VCARD",
+            image: "",
+            dotsOptions: {
+                type: "dots",
+                color: "#ff0080"
+            },
+            backgroundOptions: {
+                color: "transparent"
+            },
+            imageOptions: {
+                crossOrigin: "anonymous",
+                margin: 10
+            }
+        });
+
+        qrCode.append(document.getElementById("qrCodeCanvas"));
+    </script>
 </body>
 </html>
