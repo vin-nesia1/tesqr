@@ -1,0 +1,44 @@
+title: QEO CARD - Kartu Digital Interaktif
+description: Buat kartu digital profesional dengan QR code untuk bisnis dan personal
+url: "https://username.github.io/qeo-card"
+baseurl: "/qeo-card"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .bundle
+  - .sass-cache
+  - .jekyll-cache
+  - .jekyll-metadata
+  - .gitignore
+  - README.md
+
+# SEO
+twitter:
+  username: username
+  card: summary
+
+author:
+  name: QEO CARD
+  email: info@qeo.qzz.io
+
+social:
+  name: QEO CARD
+  links:
+    - https://twitter.com/username
+    - https://www.facebook.com/username
+    - https://www.linkedin.com/in/username
+    - https://github.com/username
