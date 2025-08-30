@@ -406,12 +406,11 @@
             margin-bottom: 40px;
         }
         
-        .card-container {
-            perspective: 1500px;
+        .card-wrapper {
+            position: relative;
             width: var(--card-width);
             height: var(--card-height);
-            position: relative;
-            transform: translateZ(0);
+            margin-bottom: 20px;
         }
         
         .business-card {
@@ -1325,21 +1324,15 @@
                 visibility: hidden;
             }
             
-            .business-card, .business-card * {
+            .print-area, .print-area * {
                 visibility: visible;
             }
             
-            .business-card {
+            .print-area {
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
-                height: 100%;
-            }
-            
-            .card-face {
-                border: none;
-                box-shadow: none;
             }
         }
         
@@ -1352,11 +1345,6 @@
             .hero p {
                 font-size: 1.2rem;
             }
-            
-            .card-container {
-                width: 85mm;
-                height: 51mm;
-            }
         }
         
         @media (max-width: 768px) {
@@ -1366,11 +1354,6 @@
             
             .hero p {
                 font-size: 1.1rem;
-            }
-            
-            .card-container {
-                width: 80mm;
-                height: 48mm;
             }
             
             .navbar-nav {
@@ -1397,11 +1380,6 @@
             
             .hero p {
                 font-size: 1rem;
-            }
-            
-            .card-container {
-                width: 75mm;
-                height: 45mm;
             }
             
             .section-title {
@@ -1515,7 +1493,7 @@
         <div class="container">
             <a class="navbar-brand" href="#">
                 <div class="logo">
-                    <img src="logo.png" alt="QEO CARD Logo">
+                    <img src="https://via.placeholder.com/40" alt="QEO CARD Logo">
                 </div>
                 QEO CARD
             </a>
@@ -1629,7 +1607,7 @@
                 <div class="col-lg-12" data-aos="fade-up">
                     <div class="card-preview-container">
                         <!-- Card Front Preview -->
-                        <div class="card-container">
+                        <div class="card-wrapper">
                             <div class="business-card" id="business-card-front">
                                 <div class="card-face card-front standard">
                                     <div class="card-label">Depan</div>
@@ -1656,7 +1634,7 @@
                         </div>
                         
                         <!-- Card Back Preview -->
-                        <div class="card-container">
+                        <div class="card-wrapper">
                             <div class="business-card" id="business-card-back">
                                 <div class="card-face card-back standard">
                                     <div class="card-label">Belakang</div>
@@ -2112,6 +2090,9 @@
         </div>
     </footer>
 
+    <!-- Print Area (Hidden by default) -->
+    <div class="print-area" id="print-area"></div>
+
     <!-- Loading Spinner -->
     <div class="spinner-container" id="spinner">
         <div class="spinner"></div>
@@ -2226,9 +2207,15 @@
             const businessCardFront = document.getElementById('business-card-front');
             const businessCardBack = document.getElementById('business-card-back');
             
+            // Card wrapper elements
+            const cardWrappers = document.querySelectorAll('.card-wrapper');
+            
             // Card face elements
             const cardFront = businessCardFront.querySelector('.card-front');
             const cardBack = businessCardBack.querySelector('.card-back');
+            
+            // Print area
+            const printArea = document.getElementById('print-area');
             
             // Customization tabs
             const customizationTabs = document.querySelectorAll('.customization-tab');
@@ -2240,7 +2227,6 @@
             
             // Size options
             const sizeOptions = document.querySelectorAll('[data-size]');
-            const cardContainers = document.querySelectorAll('.card-container');
             
             // QR style options
             const qrStyleOptions = document.querySelectorAll('[data-style]');
@@ -2259,6 +2245,10 @@
             const notificationMessage = document.getElementById('notification-message');
             const closeNotification = document.getElementById('close-notification');
             const spinner = document.getElementById('spinner');
+            
+            // Current card size
+            let currentCardWidth = 90; // Default in mm
+            let currentCardHeight = 54; // Default in mm
             
             // Show notification
             function showNotification(title, message, type = 'success') {
@@ -2407,25 +2397,30 @@ END:VCARD`;
                     
                     const size = this.getAttribute('data-size');
                     
-                    cardContainers.forEach(container => {
-                        switch(size) {
-                            case 'international':
-                                container.style.setProperty('--card-width', '90mm');
-                                container.style.setProperty('--card-height', '54mm');
-                                break;
-                            case 'america':
-                                container.style.setProperty('--card-width', '89mm');
-                                container.style.setProperty('--card-height', '51mm');
-                                break;
-                            case 'japan':
-                                container.style.setProperty('--card-width', '91mm');
-                                container.style.setProperty('--card-height', '55mm');
-                                break;
-                            case 'europe':
-                                container.style.setProperty('--card-width', '85mm');
-                                container.style.setProperty('--card-height', '55mm');
-                                break;
-                        }
+                    // Update current card size
+                    switch(size) {
+                        case 'international':
+                            currentCardWidth = 90;
+                            currentCardHeight = 54;
+                            break;
+                        case 'america':
+                            currentCardWidth = 89;
+                            currentCardHeight = 51;
+                            break;
+                        case 'japan':
+                            currentCardWidth = 91;
+                            currentCardHeight = 55;
+                            break;
+                        case 'europe':
+                            currentCardWidth = 85;
+                            currentCardHeight = 55;
+                            break;
+                    }
+                    
+                    // Update CSS custom properties for all card wrappers
+                    cardWrappers.forEach(wrapper => {
+                        wrapper.style.width = `${currentCardWidth}mm`;
+                        wrapper.style.height = `${currentCardHeight}mm`;
                     });
                 });
             });
@@ -2488,37 +2483,30 @@ END:VCARD`;
                 // Show spinner
                 spinner.style.display = 'flex';
                 
-                // Get current card size
-                const cardWidth = parseInt(cardElement.style.getPropertyValue('--card-width')) || 90;
-                const cardHeight = parseInt(cardElement.style.getPropertyValue('--card-height')) || 54;
-                
-                // Convert mm to pixels (1mm = 3.78px at 96 DPI, but we want high quality)
-                const scale = 8; // For high quality
-                const pixelWidth = cardWidth * 3.78 * scale;
-                const pixelHeight = cardHeight * 3.78 * scale;
+                // Get the card wrapper
+                const cardWrapper = cardElement.closest('.card-wrapper');
                 
                 // Create a clone of the business card for download
                 const cardClone = cardElement.cloneNode(true);
-                cardClone.style.transform = 'none';
-                cardClone.style.width = pixelWidth + 'px';
-                cardClone.style.height = pixelHeight + 'px';
                 
                 // Create a temporary container
                 const tempContainer = document.createElement('div');
                 tempContainer.style.position = 'absolute';
                 tempContainer.style.left = '-9999px';
+                tempContainer.style.width = `${currentCardWidth}mm`;
+                tempContainer.style.height = `${currentCardHeight}mm`;
                 tempContainer.appendChild(cardClone);
                 document.body.appendChild(tempContainer);
                 
                 // Use html2canvas to capture the card
                 html2canvas(cardClone, {
-                    scale: 1,
+                    scale: 4, // Higher scale for better quality
                     backgroundColor: null,
                     logging: false,
                     useCORS: true,
                     allowTaint: true,
-                    width: pixelWidth,
-                    height: pixelHeight
+                    width: currentCardWidth * 3.78 * 4, // Convert mm to pixels at 96 DPI
+                    height: currentCardHeight * 3.78 * 4
                 }).then(canvas => {
                     // Remove the temporary container
                     document.body.removeChild(tempContainer);
@@ -2526,26 +2514,19 @@ END:VCARD`;
                     // Create download link
                     const link = document.createElement('a');
                     
-                    if (format === 'pdf') {
-                        // For PDF, we'll handle it separately
-                        // Hide spinner for now
-                        spinner.style.display = 'none';
-                        return canvas;
-                    } else {
-                        // Create image
-                        const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
-                        link.href = canvas.toDataURL(mimeType, 1.0);
-                        link.download = `qeo-card-${side}-${nameInput.value || 'card'}.${format}`;
-                        
-                        // Trigger download
-                        link.click();
-                        
-                        // Hide spinner
-                        spinner.style.display = 'none';
-                        
-                        // Show notification
-                        showNotification('Download Berhasil', `Kartu digital sisi ${side} berhasil didownload dalam format ${format.toUpperCase()}!`);
-                    }
+                    // Create image
+                    const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
+                    link.href = canvas.toDataURL(mimeType, 1.0);
+                    link.download = `qeo-card-${side}-${nameInput.value || 'card'}.${format}`;
+                    
+                    // Trigger download
+                    link.click();
+                    
+                    // Hide spinner
+                    spinner.style.display = 'none';
+                    
+                    // Show notification
+                    showNotification('Download Berhasil', `Kartu digital sisi ${side} berhasil didownload dalam format ${format.toUpperCase()}!`);
                 }).catch(error => {
                     console.error('Error downloading card:', error);
                     
@@ -2562,76 +2543,71 @@ END:VCARD`;
                 // Show spinner
                 spinner.style.display = 'flex';
                 
-                // Get current card size
-                const cardWidth = parseInt(cardContainers[0].style.getPropertyValue('--card-width')) || 90;
-                const cardHeight = parseInt(cardContainers[0].style.getPropertyValue('--card-height')) || 54;
-                
-                // Convert mm to pixels (1mm = 3.78px at 96 DPI, but we want high quality)
-                const scale = 8; // For high quality
-                const pixelWidth = cardWidth * 3.78 * scale;
-                const pixelHeight = cardHeight * 3.78 * scale;
-                
                 // Create clones of both cards
                 const frontClone = businessCardFront.cloneNode(true);
-                frontClone.style.transform = 'none';
-                frontClone.style.width = pixelWidth + 'px';
-                frontClone.style.height = pixelHeight + 'px';
-                
                 const backClone = businessCardBack.cloneNode(true);
-                backClone.style.transform = 'none';
-                backClone.style.width = pixelWidth + 'px';
-                backClone.style.height = pixelHeight + 'px';
                 
                 // Create temporary containers
-                const tempContainer = document.createElement('div');
-                tempContainer.style.position = 'absolute';
-                tempContainer.style.left = '-9999px';
-                tempContainer.appendChild(frontClone);
-                tempContainer.appendChild(backClone);
-                document.body.appendChild(tempContainer);
+                const frontContainer = document.createElement('div');
+                frontContainer.style.position = 'absolute';
+                frontContainer.style.left = '-9999px';
+                frontContainer.style.width = `${currentCardWidth}mm`;
+                frontContainer.style.height = `${currentCardHeight}mm`;
+                frontContainer.appendChild(frontClone);
+                
+                const backContainer = document.createElement('div');
+                backContainer.style.position = 'absolute';
+                backContainer.style.left = '-9999px';
+                backContainer.style.width = `${currentCardWidth}mm`;
+                backContainer.style.height = `${currentCardHeight}mm`;
+                backContainer.appendChild(backClone);
+                
+                document.body.appendChild(frontContainer);
+                document.body.appendChild(backContainer);
                 
                 // Capture both cards
                 Promise.all([
                     html2canvas(frontClone, {
-                        scale: 1,
+                        scale: 4,
                         backgroundColor: null,
                         logging: false,
                         useCORS: true,
                         allowTaint: true,
-                        width: pixelWidth,
-                        height: pixelHeight
+                        width: currentCardWidth * 3.78 * 4,
+                        height: currentCardHeight * 3.78 * 4
                     }),
                     html2canvas(backClone, {
-                        scale: 1,
+                        scale: 4,
                         backgroundColor: null,
                         logging: false,
                         useCORS: true,
                         allowTaint: true,
-                        width: pixelWidth,
-                        height: pixelHeight
+                        width: currentCardWidth * 3.78 * 4,
+                        height: currentCardHeight * 3.78 * 4
                     })
                 ]).then(canvases => {
-                    // Remove the temporary container
-                    document.body.removeChild(tempContainer);
+                    // Remove the temporary containers
+                    document.body.removeChild(frontContainer);
+                    document.body.removeChild(backContainer);
                     
                     // Create PDF
                     const { jsPDF } = window.jspdf;
                     const pdf = new jsPDF({
                         orientation: 'landscape',
                         unit: 'mm',
-                        format: [cardHeight, cardWidth]
+                        format: [currentCardHeight, currentCardWidth]
                     });
                     
                     // Add front side
                     const frontImgData = canvases[0].toDataURL('image/png');
-                    pdf.addImage(frontImgData, 'PNG', 0, 0, cardWidth, cardHeight);
+                    pdf.addImage(frontImgData, 'PNG', 0, 0, currentCardWidth, currentCardHeight);
                     
                     // Add new page for back side
                     pdf.addPage();
                     
                     // Add back side
                     const backImgData = canvases[1].toDataURL('image/png');
-                    pdf.addImage(backImgData, 'PNG', 0, 0, cardWidth, cardHeight);
+                    pdf.addImage(backImgData, 'PNG', 0, 0, currentCardWidth, currentCardHeight);
                     
                     // Save PDF
                     pdf.save(`qeo-card-${nameInput.value || 'card'}.pdf`);
@@ -2650,6 +2626,50 @@ END:VCARD`;
                     // Show error notification
                     showNotification('Error', 'Terjadi kesalahan saat mendownload PDF. Silakan coba lagi.', 'error');
                 });
+            }
+            
+            // Print function
+            function printCards() {
+                // Show spinner
+                spinner.style.display = 'flex';
+                
+                // Clear print area
+                printArea.innerHTML = '';
+                
+                // Create print title
+                const printTitle = document.createElement('div');
+                printTitle.style.textAlign = 'center';
+                printTitle.style.marginBottom = '20px';
+                printTitle.innerHTML = `<h2>QEO CARD - ${nameInput.value || 'Kartu Digital'}</h2>`;
+                printArea.appendChild(printTitle);
+                
+                // Clone both cards
+                const frontClone = businessCardFront.cloneNode(true);
+                const backClone = businessCardBack.cloneNode(true);
+                
+                // Create card containers for print
+                const frontPrintContainer = document.createElement('div');
+                frontPrintContainer.style.marginBottom = '20px';
+                frontPrintContainer.style.pageBreakAfter = 'always';
+                frontPrintContainer.appendChild(frontClone);
+                
+                const backPrintContainer = document.createElement('div');
+                backPrintContainer.appendChild(backClone);
+                
+                // Add cards to print area
+                printArea.appendChild(frontPrintContainer);
+                printArea.appendChild(backPrintContainer);
+                
+                // Hide spinner
+                spinner.style.display = 'none';
+                
+                // Show notification
+                showNotification('Print', 'Siap untuk print. Silakan gunakan Ctrl+P atau menu print browser Anda.');
+                
+                // Trigger print dialog after a short delay
+                setTimeout(() => {
+                    window.print();
+                }, 500);
             }
             
             // Download button event listeners
@@ -2673,10 +2693,8 @@ END:VCARD`;
                 downloadPDF();
             });
             
-            // Print button event listener
             printCardBtn.addEventListener('click', function() {
-                window.print();
-                showNotification('Print', 'Dialog print telah dibuka. Silakan atur pengaturan print untuk hasil terbaik.');
+                printCards();
             });
             
             // Form submission
