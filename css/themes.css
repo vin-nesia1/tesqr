@@ -1,0 +1,185 @@
+/* Theme Styles */
+
+/* Standard Theme */
+.theme-standard {
+    --card-bg: #ffffff;
+    --card-text: #2c3e50;
+    --card-accent: #3498db;
+    --card-border: #ecf0f1;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.theme-standard .vcard {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+}
+
+.theme-standard .vcard-info h3,
+.theme-standard .vcard-info p {
+    color: var(--card-text);
+}
+
+.theme-standard .vcard-contact-item i {
+    color: var(--card-accent);
+}
+
+.theme-standard .vcard-avatar {
+    border-color: var(--card-accent);
+}
+
+.theme-standard .cyber-border::before {
+    border-image: linear-gradient(45deg, var(--card-accent), #2980b9) 1;
+}
+
+/* VIP Theme */
+.theme-vip {
+    --card-bg: #f8f8f8;
+    --card-text: #1a1a1a;
+    --card-accent: #d4af37; /* Gold */
+    --card-border: #d4af37;
+    --card-shadow: rgba(212, 175, 55, 0.2);
+}
+
+.theme-vip .vcard {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+}
+
+.theme-vip .vcard-info h3 {
+    color: var(--card-text);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.theme-vip .vcard-info p {
+    color: var(--card-text);
+}
+
+.theme-vip .vcard-contact-item i {
+    color: var(--card-accent);
+}
+
+.theme-vip .vcard-avatar {
+    border-color: var(--card-accent);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.theme-vip .cyber-border::before {
+    border-image: linear-gradient(45deg, var(--card-accent), #b8941f) 1;
+}
+
+/* Tech Theme */
+.theme-tech {
+    --card-bg: #0a0a1a;
+    --card-text: #e0e0ff;
+    --card-accent: #00ffff; /* Cyan */
+    --card-border: #00ffff;
+    --card-shadow: rgba(0, 255, 255, 0.3);
+}
+
+.theme-tech .vcard {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+}
+
+.theme-tech .vcard-info h3 {
+    color: var(--card-accent);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.theme-tech .vcard-info p {
+    color: var(--card-text);
+}
+
+.theme-tech .vcard-contact-item i {
+    color: var(--card-accent);
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.theme-tech .vcard-avatar {
+    border-color: var(--card-accent);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.theme-tech .cyber-border::before {
+    border-image: linear-gradient(45deg, var(--card-accent), #00cccc) 1;
+}
+
+/* Creative Theme */
+.theme-creative {
+    --card-bg: #fce4ec;
+    --card-text: #424242;
+    --card-accent: #e91e63; /* Pink */
+    --card-border: #e91e63;
+    --card-shadow: rgba(233, 30, 99, 0.2);
+}
+
+.theme-creative .vcard {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(233, 30, 99, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(233, 30, 99, 0.1) 0%, transparent 50%);
+}
+
+.theme-creative .vcard-info h3 {
+    color: var(--card-accent);
+}
+
+.theme-creative .vcard-info p {
+    color: var(--card-text);
+}
+
+.theme-creative .vcard-contact-item i {
+    color: var(--card-accent);
+}
+
+.theme-creative .vcard-avatar {
+    border-color: var(--card-accent);
+}
+
+.theme-creative .cyber-border::before {
+    border-image: linear-gradient(45deg, var(--card-accent), #c2185b) 1;
+}
+
+/* Nature Theme */
+.theme-nature {
+    --card-bg: #f1f8e9;
+    --card-text: #33691e;
+    --card-accent: #8bc34a; /* Light Green */
+    --card-border: #8bc34a;
+    --card-shadow: rgba(139, 195, 74, 0.2);
+}
+
+.theme-nature .vcard {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(139, 195, 74, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(139, 195, 74, 0.1) 0%, transparent 50%);
+}
+
+.theme-nature .vcard-info h3 {
+    color: var(--card-text);
+}
+
+.theme-nature .vcard-info p {
+    color: var(--card-text);
+}
+
+.theme-nature .vcard-contact-item i {
+    color: var(--card-accent);
+}
+
+.theme-nature .vcard-avatar {
+    border-color: var(--card-accent);
+}
+
+.theme-nature .cyber-border::before {
+    border-image: linear-gradient(45deg, var(--card-accent), #689f38) 1;
+}
