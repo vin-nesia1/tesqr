@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- QR Code Styling -->
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
@@ -79,12 +79,8 @@
         }
         
         @keyframes matrix-fall {
-            0% {
-                transform: translateY(-100%);
-            }
-            100% {
-                transform: translateY(calc(100vh + 100%));
-            }
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(calc(100vh + 100%)); }
         }
         
         /* Scrollbar Styling */
@@ -402,18 +398,18 @@
         }
         
         /* Card Styles */
-        .card-container-wrapper {
+        .card-preview-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            align-items: center;
-            min-height: 400px;
+            gap: 40px;
+            margin-bottom: 40px;
         }
         
         .card-container {
             perspective: 1500px;
             width: var(--card-width);
             height: var(--card-height);
-            margin: 0 auto;
             position: relative;
             transform: translateZ(0);
         }
@@ -422,37 +418,34 @@
             width: 100%;
             height: 100%;
             position: relative;
-            transform-style: preserve-3d;
-            transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border-radius: 15px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .card-container:hover .business-card {
-            transform: rotateY(180deg);
+            overflow: hidden;
         }
         
         .card-face {
             position: absolute;
             width: 100%;
             height: 100%;
-            backface-visibility: hidden;
             border-radius: 15px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
             padding: 25px;
         }
         
+        /* Card Front Templates */
         .card-front {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             position: relative;
         }
         
-        .card-front::before {
+        /* Standard Template */
+        .card-front.standard {
+            background: linear-gradient(135deg, #6a1b9a, #c2185b);
+        }
+        
+        .card-front.standard::before {
             content: '';
             position: absolute;
             top: 0;
@@ -466,19 +459,117 @@
             opacity: 0.8;
         }
         
+        /* Creative Template */
+        .card-front.creative {
+            background: linear-gradient(135deg, #0d47a1, #42a5f5);
+        }
+        
+        .card-front.creative::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1), transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1), transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05), transparent 50%);
+            opacity: 0.8;
+        }
+        
+        /* VIP Template */
+        .card-front.vip {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+        }
+        
+        .card-front.vip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.2), transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.2), transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.1), transparent 50%);
+            opacity: 0.8;
+        }
+        
+        .card-front.vip .card-name,
+        .card-front.vip .card-title {
+            color: #333;
+        }
+        
+        /* Card Back Templates */
         .card-back {
-            background: white;
             color: var(--dark-color);
-            transform: rotateY(180deg);
             border: 2px solid var(--primary-color);
         }
         
+        /* Standard Back Template */
+        .card-back.standard {
+            background: white;
+            border-color: #6a1b9a;
+        }
+        
+        .card-back.standard .card-back-title {
+            color: #6a1b9a;
+        }
+        
+        /* Creative Back Template */
+        .card-back.creative {
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            border-color: #0d47a1;
+        }
+        
+        .card-back.creative .card-back-title {
+            color: #0d47a1;
+        }
+        
+        /* VIP Back Template */
+        .card-back.vip {
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+            border-color: #ffd700;
+        }
+        
+        .card-back.vip .card-back-title {
+            color: #ff8c00;
+        }
+        
+        .card-label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .card-back .card-label {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .card-back.creative .card-label {
+            background: #0d47a1;
+        }
+        
+        .card-back.vip .card-label {
+            background: #ff8c00;
+        }
+        
         .profile-img {
-            width: 90px;
-            height: 90px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid white;
+            border: 3px solid white;
             margin-bottom: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             position: relative;
@@ -486,46 +577,78 @@
         }
         
         .card-name {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 5px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .card-title {
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin-bottom: 15px;
             opacity: 0.9;
             font-weight: 500;
         }
         
         .card-contact {
-            font-size: 0.85rem;
-            margin-bottom: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
         
         .card-contact i {
             margin-right: 8px;
             font-size: 0.9rem;
+            width: 16px;
+            text-align: center;
+        }
+        
+        .card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
         }
         
         .qr-container {
-            margin-top: 20px;
+            margin-top: 15px;
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
-        #qr-code {
-            margin: 0 auto;
+        #qr-code-back {
+            margin-bottom: 10px;
         }
         
         .card-back-title {
             font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .card-back-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .card-back-contact {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-back-contact i {
+            margin-right: 8px;
+            font-size: 0.9rem;
+            width: 16px;
+            text-align: center;
         }
         
         /* Download Options */
@@ -667,77 +790,64 @@
             display: block;
         }
         
-        /* Color Options */
-        .color-options {
+        /* Template Options */
+        .template-options {
             display: flex;
             gap: 15px;
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
         
-        .color-option {
-            width: 60px;
-            height: 60px;
+        .template-option {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
+            text-align: center;
             cursor: pointer;
-            border: 3px solid transparent;
             transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .template-option:hover, .template-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(106, 27, 154, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .template-option h5 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .template-option p {
+            margin-bottom: 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+        
+        .template-preview {
+            width: 100%;
+            height: 60px;
+            border-radius: 8px;
+            margin-bottom: 10px;
             position: relative;
             overflow: hidden;
         }
         
-        .color-option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(0);
-            transition: all 0.3s ease;
-        }
-        
-        .color-option:hover::before {
-            transform: scale(1);
-        }
-        
-        .color-option:hover, .color-option.active {
-            border-color: white;
-            transform: scale(1.1);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-        
-        .color-standard {
+        .template-preview.standard {
             background: linear-gradient(135deg, #6a1b9a, #c2185b);
         }
         
-        .color-vip {
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-        }
-        
-        .color-corporate {
+        .template-preview.creative {
             background: linear-gradient(135deg, #0d47a1, #42a5f5);
         }
         
-        .color-nature {
-            background: linear-gradient(135deg, #2e7d32, #81c784);
-        }
-        
-        .color-sunset {
-            background: linear-gradient(135deg, #ff5722, #ff9800);
-        }
-        
-        .color-ocean {
-            background: linear-gradient(135deg, #006064, #00bcd4);
-        }
-        
-        .color-royal {
-            background: linear-gradient(135deg, #311b92, #7c4dff);
-        }
-        
-        .color-rose {
-            background: linear-gradient(135deg, #c2185b, #f06292);
+        .template-preview.vip {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
         }
         
         /* Card Size Options */
@@ -1307,6 +1417,15 @@
             .form-container {
                 padding: 25px;
             }
+            
+            .card-preview-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .template-option {
+                min-width: 100%;
+            }
         }
         
         /* Loading Spinner */
@@ -1384,25 +1503,6 @@
         .notification p {
             margin-bottom: 0;
             color: rgba(255, 255, 255, 0.8);
-        }
-        
-        /* Flip Card Indicator */
-        .flip-indicator {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            z-index: 2;
-        }
-        
-        .flip-indicator i {
-            margin-left: 5px;
         }
     </style>
 </head>
@@ -1526,40 +1626,54 @@
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">Preview Kartu Digital</h2>
             <div class="row">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <div class="card-container-wrapper">
+                <div class="col-lg-12" data-aos="fade-up">
+                    <div class="card-preview-container">
+                        <!-- Card Front Preview -->
                         <div class="card-container">
-                            <div class="business-card" id="business-card">
-                                <div class="card-face card-front">
-                                    <img src="https://via.placeholder.com/90" alt="Profile" class="profile-img" id="preview-profile-img">
-                                    <h3 class="card-name" id="preview-name">Nama Anda</h3>
-                                    <p class="card-title" id="preview-title">Jabatan Anda</p>
-                                    <p class="card-contact" id="preview-company">
-                                        <i class="fas fa-building"></i> Perusahaan Anda
-                                    </p>
-                                    <p class="card-contact" id="preview-phone">
-                                        <i class="fas fa-phone"></i> +62 812 3456 7890
-                                    </p>
-                                    <p class="card-contact" id="preview-email">
-                                        <i class="fas fa-envelope"></i> email@anda.com
-                                    </p>
-                                    <div class="flip-indicator">
-                                        Putar Kartu <i class="fas fa-sync-alt"></i>
+                            <div class="business-card" id="business-card-front">
+                                <div class="card-face card-front standard">
+                                    <div class="card-label">Depan</div>
+                                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                        <img src="https://via.placeholder.com/80" alt="Profile" class="profile-img" id="preview-profile-img-front">
+                                        <div style="margin-left: 15px;">
+                                            <h3 class="card-name" id="preview-name-front">Nama Anda</h3>
+                                            <p class="card-title" id="preview-title-front">Jabatan Anda</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-details">
+                                        <p class="card-contact" id="preview-company-front">
+                                            <i class="fas fa-building"></i> Perusahaan Anda
+                                        </p>
+                                        <p class="card-contact" id="preview-phone-front">
+                                            <i class="fas fa-phone"></i> +62 812 3456 7890
+                                        </p>
+                                        <p class="card-contact" id="preview-email-front">
+                                            <i class="fas fa-envelope"></i> email@anda.com
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="card-face card-back">
-                                    <h4 class="card-back-title">Pindai QR Code</h4>
-                                    <div class="qr-container">
-                                        <div id="qr-code"></div>
-                                    </div>
-                                    <p class="mt-3 text-center">Untuk menyimpan kontak</p>
-                                    <div class="mt-3 text-center">
-                                        <p class="card-contact" id="preview-website">
-                                            <i class="fas fa-globe"></i> www.websiteanda.com
-                                        </p>
-                                        <p class="card-contact" id="preview-address">
-                                            <i class="fas fa-map-marker-alt"></i> Alamat Anda
-                                        </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Back Preview -->
+                        <div class="card-container">
+                            <div class="business-card" id="business-card-back">
+                                <div class="card-face card-back standard">
+                                    <div class="card-label">Belakang</div>
+                                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                                        <h4 class="card-back-title">Pindai QR Code</h4>
+                                        <div class="qr-container">
+                                            <div id="qr-code-back"></div>
+                                            <p style="font-size: 0.75rem; text-align: center; margin-top: 5px;">Untuk menyimpan kontak</p>
+                                        </div>
+                                        <div class="card-back-details">
+                                            <p class="card-back-contact" id="preview-website-back">
+                                                <i class="fas fa-globe"></i> www.websiteanda.com
+                                            </p>
+                                            <p class="card-back-contact" id="preview-address-back">
+                                                <i class="fas fa-map-marker-alt"></i> Alamat Anda
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1570,65 +1684,12 @@
                     <div class="download-options" data-aos="fade-up" data-aos-delay="200">
                         <h4>Download & Print</h4>
                         <div class="text-center">
-                            <button class="download-btn" id="download-png">Download PNG</button>
-                            <button class="download-btn" id="download-jpg">Download JPG</button>
+                            <button class="download-btn" id="download-png-front">Download PNG (Depan)</button>
+                            <button class="download-btn" id="download-png-back">Download PNG (Belakang)</button>
+                            <button class="download-btn" id="download-jpg-front">Download JPG (Depan)</button>
+                            <button class="download-btn" id="download-jpg-back">Download JPG (Belakang)</button>
                             <button class="download-btn" id="download-pdf">Download PDF</button>
                             <button class="download-btn print-btn" id="print-card">Print Kartu</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div class="mt-4 mt-lg-0">
-                        <h4 class="mb-4">Mengapa Memilih QEO CARD?</h4>
-                        <div class="accordion" id="previewAccordion">
-                            <div class="accordion-item mb-3">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                                        Desain Profesional
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#previewAccordion">
-                                    <div class="accordion-body">
-                                        Template desain yang modern dan profesional untuk meningkatkan citra pribadi atau bisnis Anda.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item mb-3">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                                        QR Code Kustom
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#previewAccordion">
-                                    <div class="accordion-body">
-                                        QR code yang dapat disesuaikan dengan gaya, warna, dan logo sesuai keinginan Anda.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item mb-3">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                                        Download Berkualitas Tinggi
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#previewAccordion">
-                                    <div class="accordion-body">
-                                        Download kartu digital Anda dalam berbagai format dengan kualitas tinggi hingga 300 DPI untuk hasil cetak terbaik.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
-                                        Update Real-time
-                                    </button>
-                                </h2>
-                                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#previewAccordion">
-                                    <div class="accordion-body">
-                                        Perbarui informasi kartu digital Anda kapan saja tanpa perlu mencetak ulang kartu nama fisik.
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1700,20 +1761,50 @@
                     <div class="customization-content" id="design-content">
                         <div class="row">
                             <div class="col-md-6">
-                                <h5 class="mb-3">Pilih Warna Kartu</h5>
-                                <div class="color-options">
-                                    <div class="color-option color-standard active" data-color="standard" title="Standard"></div>
-                                    <div class="color-option color-vip" data-color="vip" title="VIP"></div>
-                                    <div class="color-option color-corporate" data-color="corporate" title="Corporate"></div>
-                                    <div class="color-option color-nature" data-color="nature" title="Nature"></div>
-                                    <div class="color-option color-sunset" data-color="sunset" title="Sunset"></div>
-                                    <div class="color-option color-ocean" data-color="ocean" title="Ocean"></div>
-                                    <div class="color-option color-royal" data-color="royal" title="Royal"></div>
-                                    <div class="color-option color-rose" data-color="rose" title="Rose"></div>
+                                <h5 class="mb-3">Template Kartu Depan</h5>
+                                <div class="template-options">
+                                    <div class="template-option active" data-template-front="standard">
+                                        <div class="template-preview standard"></div>
+                                        <h5>Standar</h5>
+                                        <p>Warna polos/biasa</p>
+                                    </div>
+                                    <div class="template-option" data-template-front="creative">
+                                        <div class="template-preview creative"></div>
+                                        <h5>Kreatif</h5>
+                                        <p>Elegan</p>
+                                    </div>
+                                    <div class="template-option" data-template-front="vip">
+                                        <div class="template-preview vip"></div>
+                                        <h5>VIP</h5>
+                                        <p>Premium</p>
+                                    </div>
                                 </div>
                             </div>
                             
                             <div class="col-md-6">
+                                <h5 class="mb-3">Template Kartu Belakang</h5>
+                                <div class="template-options">
+                                    <div class="template-option active" data-template-back="standard">
+                                        <div class="template-preview standard"></div>
+                                        <h5>Standar</h5>
+                                        <p>Warna polos/biasa</p>
+                                    </div>
+                                    <div class="template-option" data-template-back="creative">
+                                        <div class="template-preview creative"></div>
+                                        <h5>Kreatif</h5>
+                                        <p>Elegan</p>
+                                    </div>
+                                    <div class="template-option" data-template-back="vip">
+                                        <div class="template-preview vip"></div>
+                                        <h5>VIP</h5>
+                                        <p>Premium</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
                                 <h5 class="mb-3">Ukuran Kartu</h5>
                                 <div class="size-options">
                                     <div class="size-option active" data-size="international">
@@ -2079,10 +2170,10 @@
             
             createMatrixRain();
             
-            // Initialize QR Code
-            const qrCode = new QRCodeStyling({
-                width: 150,
-                height: 150,
+            // Initialize QR Code for back of card
+            const qrCodeBack = new QRCodeStyling({
+                width: 120,
+                height: 120,
                 data: "https://qeo.qzz.io",
                 image: "",
                 dotsOptions: {
@@ -2104,7 +2195,7 @@
                 }
             });
             
-            qrCode.append(document.getElementById("qr-code"));
+            qrCodeBack.append(document.getElementById("qr-code-back"));
             
             // Form elements
             const form = document.getElementById('vcard-form');
@@ -2119,37 +2210,46 @@
             const qrColorInput = document.getElementById('qr-color');
             const qrLogoInput = document.getElementById('qr-logo');
             
-            // Preview elements
-            const previewName = document.getElementById('preview-name');
-            const previewTitle = document.getElementById('preview-title');
-            const previewCompany = document.getElementById('preview-company');
-            const previewPhone = document.getElementById('preview-phone');
-            const previewEmail = document.getElementById('preview-email');
-            const previewWebsite = document.getElementById('preview-website');
-            const previewAddress = document.getElementById('preview-address');
-            const previewProfileImg = document.getElementById('preview-profile-img');
+            // Preview elements for front card
+            const previewNameFront = document.getElementById('preview-name-front');
+            const previewTitleFront = document.getElementById('preview-title-front');
+            const previewCompanyFront = document.getElementById('preview-company-front');
+            const previewPhoneFront = document.getElementById('preview-phone-front');
+            const previewEmailFront = document.getElementById('preview-email-front');
+            const previewProfileImgFront = document.getElementById('preview-profile-img-front');
             
-            // Business card element for download
-            const businessCard = document.getElementById('business-card');
+            // Preview elements for back card
+            const previewWebsiteBack = document.getElementById('preview-website-back');
+            const previewAddressBack = document.getElementById('preview-address-back');
+            
+            // Business card elements for download
+            const businessCardFront = document.getElementById('business-card-front');
+            const businessCardBack = document.getElementById('business-card-back');
+            
+            // Card face elements
+            const cardFront = businessCardFront.querySelector('.card-front');
+            const cardBack = businessCardBack.querySelector('.card-back');
             
             // Customization tabs
             const customizationTabs = document.querySelectorAll('.customization-tab');
             const customizationContents = document.querySelectorAll('.customization-content');
             
-            // Color options
-            const colorOptions = document.querySelectorAll('.color-option');
-            const cardFront = document.querySelector('.card-front');
+            // Template options
+            const templateOptionsFront = document.querySelectorAll('[data-template-front]');
+            const templateOptionsBack = document.querySelectorAll('[data-template-back]');
             
             // Size options
-            const sizeOptions = document.querySelectorAll('.size-option');
-            const cardContainer = document.querySelector('.card-container');
+            const sizeOptions = document.querySelectorAll('[data-size]');
+            const cardContainers = document.querySelectorAll('.card-container');
             
             // QR style options
-            const qrStyleOptions = document.querySelectorAll('.qr-style-option');
+            const qrStyleOptions = document.querySelectorAll('[data-style]');
             
             // Download buttons
-            const downloadPngBtn = document.getElementById('download-png');
-            const downloadJpgBtn = document.getElementById('download-jpg');
+            const downloadPngFrontBtn = document.getElementById('download-png-front');
+            const downloadPngBackBtn = document.getElementById('download-png-back');
+            const downloadJpgFrontBtn = document.getElementById('download-jpg-front');
+            const downloadJpgBackBtn = document.getElementById('download-jpg-back');
             const downloadPdfBtn = document.getElementById('download-pdf');
             const printCardBtn = document.getElementById('print-card');
             
@@ -2200,34 +2300,34 @@
             
             // Update preview in real-time
             nameInput.addEventListener('input', function() {
-                previewName.textContent = this.value || 'Nama Anda';
+                previewNameFront.textContent = this.value || 'Nama Anda';
                 updateQRData();
             });
             
             titleInput.addEventListener('input', function() {
-                previewTitle.textContent = this.value || 'Jabatan Anda';
+                previewTitleFront.textContent = this.value || 'Jabatan Anda';
             });
             
             companyInput.addEventListener('input', function() {
-                previewCompany.textContent = this.value || 'Perusahaan Anda';
+                previewCompanyFront.textContent = this.value || 'Perusahaan Anda';
             });
             
             phoneInput.addEventListener('input', function() {
-                previewPhone.innerHTML = `<i class="fas fa-phone"></i> ${this.value || '+62 812 3456 7890'}`;
+                previewPhoneFront.innerHTML = `<i class="fas fa-phone"></i> ${this.value || '+62 812 3456 7890'}`;
                 updateQRData();
             });
             
             emailInput.addEventListener('input', function() {
-                previewEmail.innerHTML = `<i class="fas fa-envelope"></i> ${this.value || 'email@anda.com'}`;
+                previewEmailFront.innerHTML = `<i class="fas fa-envelope"></i> ${this.value || 'email@anda.com'}`;
                 updateQRData();
             });
             
             websiteInput.addEventListener('input', function() {
-                previewWebsite.innerHTML = `<i class="fas fa-globe"></i> ${this.value || 'www.websiteanda.com'}`;
+                previewWebsiteBack.innerHTML = `<i class="fas fa-globe"></i> ${this.value || 'www.websiteanda.com'}`;
             });
             
             addressInput.addEventListener('input', function() {
-                previewAddress.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${this.value || 'Alamat Anda'}`;
+                previewAddressBack.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${this.value || 'Alamat Anda'}`;
             });
             
             profileImgInput.addEventListener('change', function() {
@@ -2242,7 +2342,7 @@
                     const reader = new FileReader();
                     
                     reader.onload = function(e) {
-                        previewProfileImg.src = e.target.result;
+                        previewProfileImgFront.src = e.target.result;
                     }
                     
                     reader.readAsDataURL(this.files[0]);
@@ -2262,45 +2362,40 @@ TEL:${phone}
 EMAIL:${email}
 END:VCARD`;
                 
-                qrCode.update({
+                qrCodeBack.update({
                     data: vcardData
                 });
             }
             
-            // Color option selection
-            colorOptions.forEach(option => {
+            // Template front selection
+            templateOptionsFront.forEach(option => {
                 option.addEventListener('click', function() {
-                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    templateOptionsFront.forEach(opt => opt.classList.remove('active'));
                     this.classList.add('active');
                     
-                    const color = this.getAttribute('data-color');
+                    const template = this.getAttribute('data-template-front');
                     
-                    switch(color) {
-                        case 'standard':
-                            cardFront.style.background = 'linear-gradient(135deg, #6a1b9a, #c2185b)';
-                            break;
-                        case 'vip':
-                            cardFront.style.background = 'linear-gradient(135deg, #ffd700, #ff8c00)';
-                            break;
-                        case 'corporate':
-                            cardFront.style.background = 'linear-gradient(135deg, #0d47a1, #42a5f5)';
-                            break;
-                        case 'nature':
-                            cardFront.style.background = 'linear-gradient(135deg, #2e7d32, #81c784)';
-                            break;
-                        case 'sunset':
-                            cardFront.style.background = 'linear-gradient(135deg, #ff5722, #ff9800)';
-                            break;
-                        case 'ocean':
-                            cardFront.style.background = 'linear-gradient(135deg, #006064, #00bcd4)';
-                            break;
-                        case 'royal':
-                            cardFront.style.background = 'linear-gradient(135deg, #311b92, #7c4dff)';
-                            break;
-                        case 'rose':
-                            cardFront.style.background = 'linear-gradient(135deg, #c2185b, #f06292)';
-                            break;
-                    }
+                    // Remove all template classes
+                    cardFront.classList.remove('standard', 'creative', 'vip');
+                    
+                    // Add selected template class
+                    cardFront.classList.add(template);
+                });
+            });
+            
+            // Template back selection
+            templateOptionsBack.forEach(option => {
+                option.addEventListener('click', function() {
+                    templateOptionsBack.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const template = this.getAttribute('data-template-back');
+                    
+                    // Remove all template classes
+                    cardBack.classList.remove('standard', 'creative', 'vip');
+                    
+                    // Add selected template class
+                    cardBack.classList.add(template);
                 });
             });
             
@@ -2312,24 +2407,26 @@ END:VCARD`;
                     
                     const size = this.getAttribute('data-size');
                     
-                    switch(size) {
-                        case 'international':
-                            cardContainer.style.setProperty('--card-width', '90mm');
-                            cardContainer.style.setProperty('--card-height', '54mm');
-                            break;
-                        case 'america':
-                            cardContainer.style.setProperty('--card-width', '89mm');
-                            cardContainer.style.setProperty('--card-height', '51mm');
-                            break;
-                        case 'japan':
-                            cardContainer.style.setProperty('--card-width', '91mm');
-                            cardContainer.style.setProperty('--card-height', '55mm');
-                            break;
-                        case 'europe':
-                            cardContainer.style.setProperty('--card-width', '85mm');
-                            cardContainer.style.setProperty('--card-height', '55mm');
-                            break;
-                    }
+                    cardContainers.forEach(container => {
+                        switch(size) {
+                            case 'international':
+                                container.style.setProperty('--card-width', '90mm');
+                                container.style.setProperty('--card-height', '54mm');
+                                break;
+                            case 'america':
+                                container.style.setProperty('--card-width', '89mm');
+                                container.style.setProperty('--card-height', '51mm');
+                                break;
+                            case 'japan':
+                                container.style.setProperty('--card-width', '91mm');
+                                container.style.setProperty('--card-height', '55mm');
+                                break;
+                            case 'europe':
+                                container.style.setProperty('--card-width', '85mm');
+                                container.style.setProperty('--card-height', '55mm');
+                                break;
+                        }
+                    });
                 });
             });
             
@@ -2341,7 +2438,7 @@ END:VCARD`;
                     
                     const style = this.getAttribute('data-style');
                     
-                    qrCode.update({
+                    qrCodeBack.update({
                         dotsOptions: {
                             type: style
                         }
@@ -2351,7 +2448,7 @@ END:VCARD`;
             
             // QR color change
             qrColorInput.addEventListener('input', function() {
-                qrCode.update({
+                qrCodeBack.update({
                     dotsOptions: {
                         color: this.value
                     },
@@ -2377,7 +2474,7 @@ END:VCARD`;
                     const reader = new FileReader();
                     
                     reader.onload = function(e) {
-                        qrCode.update({
+                        qrCodeBack.update({
                             image: e.target.result
                         });
                     }
@@ -2387,13 +2484,13 @@ END:VCARD`;
             });
             
             // Download functions
-            function downloadCard(format) {
+            function downloadCard(cardElement, side, format) {
                 // Show spinner
                 spinner.style.display = 'flex';
                 
                 // Get current card size
-                const cardWidth = parseInt(cardContainer.style.getPropertyValue('--card-width')) || 90;
-                const cardHeight = parseInt(cardContainer.style.getPropertyValue('--card-height')) || 54;
+                const cardWidth = parseInt(cardElement.style.getPropertyValue('--card-width')) || 90;
+                const cardHeight = parseInt(cardElement.style.getPropertyValue('--card-height')) || 54;
                 
                 // Convert mm to pixels (1mm = 3.78px at 96 DPI, but we want high quality)
                 const scale = 8; // For high quality
@@ -2401,7 +2498,7 @@ END:VCARD`;
                 const pixelHeight = cardHeight * 3.78 * scale;
                 
                 // Create a clone of the business card for download
-                const cardClone = businessCard.cloneNode(true);
+                const cardClone = cardElement.cloneNode(true);
                 cardClone.style.transform = 'none';
                 cardClone.style.width = pixelWidth + 'px';
                 cardClone.style.height = pixelHeight + 'px';
@@ -2430,34 +2527,25 @@ END:VCARD`;
                     const link = document.createElement('a');
                     
                     if (format === 'pdf') {
-                        // Create PDF
-                        const { jsPDF } = window.jspdf;
-                        const pdf = new jsPDF({
-                            orientation: 'landscape',
-                            unit: 'mm',
-                            format: [cardHeight, cardWidth]
-                        });
-                        
-                        const imgData = canvas.toDataURL('image/png');
-                        pdf.addImage(imgData, 'PNG', 0, 0, cardWidth, cardHeight);
-                        
-                        link.href = pdf.output('bloburl');
-                        link.download = `qeo-card-${nameInput.value || 'card'}.pdf`;
+                        // For PDF, we'll handle it separately
+                        // Hide spinner for now
+                        spinner.style.display = 'none';
+                        return canvas;
                     } else {
                         // Create image
                         const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
                         link.href = canvas.toDataURL(mimeType, 1.0);
-                        link.download = `qeo-card-${nameInput.value || 'card'}.${format}`;
+                        link.download = `qeo-card-${side}-${nameInput.value || 'card'}.${format}`;
+                        
+                        // Trigger download
+                        link.click();
+                        
+                        // Hide spinner
+                        spinner.style.display = 'none';
+                        
+                        // Show notification
+                        showNotification('Download Berhasil', `Kartu digital sisi ${side} berhasil didownload dalam format ${format.toUpperCase()}!`);
                     }
-                    
-                    // Trigger download
-                    link.click();
-                    
-                    // Hide spinner
-                    spinner.style.display = 'none';
-                    
-                    // Show notification
-                    showNotification('Download Berhasil', `Kartu digital Anda berhasil didownload dalam format ${format.toUpperCase()}!`);
                 }).catch(error => {
                     console.error('Error downloading card:', error);
                     
@@ -2469,17 +2557,120 @@ END:VCARD`;
                 });
             }
             
+            // Download PDF function
+            function downloadPDF() {
+                // Show spinner
+                spinner.style.display = 'flex';
+                
+                // Get current card size
+                const cardWidth = parseInt(cardContainers[0].style.getPropertyValue('--card-width')) || 90;
+                const cardHeight = parseInt(cardContainers[0].style.getPropertyValue('--card-height')) || 54;
+                
+                // Convert mm to pixels (1mm = 3.78px at 96 DPI, but we want high quality)
+                const scale = 8; // For high quality
+                const pixelWidth = cardWidth * 3.78 * scale;
+                const pixelHeight = cardHeight * 3.78 * scale;
+                
+                // Create clones of both cards
+                const frontClone = businessCardFront.cloneNode(true);
+                frontClone.style.transform = 'none';
+                frontClone.style.width = pixelWidth + 'px';
+                frontClone.style.height = pixelHeight + 'px';
+                
+                const backClone = businessCardBack.cloneNode(true);
+                backClone.style.transform = 'none';
+                backClone.style.width = pixelWidth + 'px';
+                backClone.style.height = pixelHeight + 'px';
+                
+                // Create temporary containers
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '-9999px';
+                tempContainer.appendChild(frontClone);
+                tempContainer.appendChild(backClone);
+                document.body.appendChild(tempContainer);
+                
+                // Capture both cards
+                Promise.all([
+                    html2canvas(frontClone, {
+                        scale: 1,
+                        backgroundColor: null,
+                        logging: false,
+                        useCORS: true,
+                        allowTaint: true,
+                        width: pixelWidth,
+                        height: pixelHeight
+                    }),
+                    html2canvas(backClone, {
+                        scale: 1,
+                        backgroundColor: null,
+                        logging: false,
+                        useCORS: true,
+                        allowTaint: true,
+                        width: pixelWidth,
+                        height: pixelHeight
+                    })
+                ]).then(canvases => {
+                    // Remove the temporary container
+                    document.body.removeChild(tempContainer);
+                    
+                    // Create PDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'mm',
+                        format: [cardHeight, cardWidth]
+                    });
+                    
+                    // Add front side
+                    const frontImgData = canvases[0].toDataURL('image/png');
+                    pdf.addImage(frontImgData, 'PNG', 0, 0, cardWidth, cardHeight);
+                    
+                    // Add new page for back side
+                    pdf.addPage();
+                    
+                    // Add back side
+                    const backImgData = canvases[1].toDataURL('image/png');
+                    pdf.addImage(backImgData, 'PNG', 0, 0, cardWidth, cardHeight);
+                    
+                    // Save PDF
+                    pdf.save(`qeo-card-${nameInput.value || 'card'}.pdf`);
+                    
+                    // Hide spinner
+                    spinner.style.display = 'none';
+                    
+                    // Show notification
+                    showNotification('Download Berhasil', 'Kartu digital Anda berhasil didownload dalam format PDF!');
+                }).catch(error => {
+                    console.error('Error downloading PDF:', error);
+                    
+                    // Hide spinner
+                    spinner.style.display = 'none';
+                    
+                    // Show error notification
+                    showNotification('Error', 'Terjadi kesalahan saat mendownload PDF. Silakan coba lagi.', 'error');
+                });
+            }
+            
             // Download button event listeners
-            downloadPngBtn.addEventListener('click', function() {
-                downloadCard('png');
+            downloadPngFrontBtn.addEventListener('click', function() {
+                downloadCard(businessCardFront, 'depan', 'png');
             });
             
-            downloadJpgBtn.addEventListener('click', function() {
-                downloadCard('jpg');
+            downloadPngBackBtn.addEventListener('click', function() {
+                downloadCard(businessCardBack, 'belakang', 'png');
+            });
+            
+            downloadJpgFrontBtn.addEventListener('click', function() {
+                downloadCard(businessCardFront, 'depan', 'jpg');
+            });
+            
+            downloadJpgBackBtn.addEventListener('click', function() {
+                downloadCard(businessCardBack, 'belakang', 'jpg');
             });
             
             downloadPdfBtn.addEventListener('click', function() {
-                downloadCard('pdf');
+                downloadPDF();
             });
             
             // Print button event listener
